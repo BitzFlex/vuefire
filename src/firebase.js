@@ -1,7 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/firebase-messaging'
 
-var firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyBPHkqDHBtotCiNuakkIWQnF-SWMUvsuGk",
     authDomain: "fcm-testbed-fbbbd.firebaseapp.com",
     projectId: "fcm-testbed-fbbbd",
@@ -14,9 +14,25 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 const messaging = firebase.messaging() 
 console.log(messaging)
-messaging.usePublicVapidKey("Your Web push key");
+messaging.usePublicVapidKey('BDQjD0qScSM0TEHgEsjIUXHLJT0kgIGSN7OjS0m0PkH0jwVKvi8eujKoOQoqsTsO9as4THjWXmXlEye7u55zCes')
 
-// messaging.usePublicVapidKey('BHtTUZeVoHuJQc40ao2g41EQ6VY_w4D53hb7PGU6UA-8m12tO5OnNmZXsi_TbqjmdpWLYnPTi37zBHYo8QfHVOM')
 
+Notification.requestPermission()
+  .then((permission) => {
+    console.log('permission ', permission)
+    if (permission !== 'granted') {
+      alert('알림을 허용해주세요')
+    }
+  })
+
+  messaging.getToken().then(token =>{
+    console.log(token)
+})
+
+
+messaging.onMessage(payload => {
+        console.log(payload)
+        alert(payload.data.message)
+      })  
 
 export default messaging
